@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon addon_id="ThemeHouse_LiveThreads" title="[⌂] Live Threads" version_string="1.0.1b" version_id="1447261019" url="http://xf.themehouse.io/" install_callback_class="ThemeHouse_Install" install_callback_method="install" uninstall_callback_class="ThemeHouse_Install" uninstall_callback_method="uninstall">
+  <admin_navigation/>
+  <admin_permissions/>
+  <admin_style_properties/>
+  <admin_templates/>
+  <admin_template_modifications/>
+  <code_events/>
+  <code_event_listeners>
+    <listener event_id="controller_pre_dispatch" execute_order="10" callback_class="ThemeHouse_Listener_ControllerPreDispatch" callback_method="controllerPreDispatch" active="1" hint="" description=""/>
+    <listener event_id="file_health_check" execute_order="10" callback_class="ThemeHouse_LiveThreads_Listener_FileHealthCheck" callback_method="fileHealthCheck" active="1" hint="" description=""/>
+    <listener event_id="init_dependencies" execute_order="10" callback_class="ThemeHouse_Listener_InitDependencies" callback_method="initDependencies" active="1" hint="" description=""/>
+    <listener event_id="load_class" execute_order="10" callback_class="ThemeHouse_LiveThreads_Listener_LoadClass" callback_method="loadClassController" active="0" hint="XenForo_ControllerPublic_Thread" description="XenForo_ControllerPublic_Thread (For XenForo 1.2 and above)" compatibility_switch="1"/>
+    <listener event_id="load_class" execute_order="10" callback_class="ThemeHouse_LiveThreads_Listener_LoadClass" callback_method="loadClassModel" active="0" hint="XenForo_Model_Thread" description="XenForo_Model_Thread (For XenForo 1.2 and above)" compatibility_switch="1"/>
+    <listener event_id="load_class" execute_order="10" callback_class="ThemeHouse_LiveThreads_Listener_LoadClass" callback_method="loadClassController" active="0" hint="XenForo_ControllerPublic_Forum" description="XenForo_ControllerPublic_Forum (For XenForo 1.2 and above)" compatibility_switch="1"/>
+    <listener event_id="load_class" execute_order="10" callback_class="ThemeHouse_LiveThreads_Listener_LoadClass" callback_method="loadClassDataWriter" active="0" hint="XenForo_DataWriter_Discussion_Thread" description="XenForo_DataWriter_Discussion_Thread (For XenForo 1.2 and above)" compatibility_switch="1"/>
+    <listener event_id="load_class" execute_order="10" callback_class="ThemeHouse_LiveThreads_Listener_LoadClass" callback_method="loadClassModel" active="0" hint="XenForo_Model_Forum" description="XenForo_Model_Forum (For XenForo 1.2 and above)" compatibility_switch="1"/>
+    <listener event_id="load_class" execute_order="10" callback_class="ThemeHouse_LiveThreads_Listener_LoadClass" callback_method="loadClassModel" active="0" hint="XenForo_Model_Post" description="XenForo_Model_Post (For XenForo 1.2 and above)" compatibility_switch="1"/>
+    <listener event_id="load_class" execute_order="10" callback_class="ThemeHouse_LiveThreads_Listener_LoadClass" callback_method="loadClassModel" active="0" hint="XenForo_Model_ThreadWatch" description="XenForo_Model_ThreadWatch (For XenForo 1.2 and above)" compatibility_switch="1"/>
+    <listener event_id="load_class_controller" execute_order="10" callback_class="ThemeHouse_LiveThreads_Listener_LoadClass" callback_method="loadClassController" active="1" hint="" description="(For XenForo 1.1 and below)" compatibility_switch="1"/>
+    <listener event_id="load_class_datawriter" execute_order="10" callback_class="ThemeHouse_LiveThreads_Listener_LoadClass" callback_method="loadClassDataWriter" active="1" hint="" description="(For XenForo 1.1 and below)" compatibility_switch="1"/>
+    <listener event_id="load_class_model" execute_order="10" callback_class="ThemeHouse_LiveThreads_Listener_LoadClass" callback_method="loadClassModel" active="1" hint="" description="(For XenForo 1.1 and below)" compatibility_switch="1"/>
+  </code_event_listeners>
+  <cron/>
+  <email_templates/>
+  <email_template_modifications/>
+  <optiongroups>
+    <group group_id="th_liveThreads" display_order="2000" debug_only="0"/>
+    <option option_id="th_liveThreads_disableTaggingQuoteAlerts" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params/>
+      <sub_options/>
+      <relation group_id="th_liveThreads" display_order="210"/>
+    </option>
+    <option option_id="th_liveThreads_disableWatchAlerts" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>1</default_value>
+      <edit_format_params/>
+      <sub_options/>
+      <relation group_id="th_liveThreads" display_order="200"/>
+    </option>
+    <option option_id="th_liveThreads_maximumPostsVisible" edit_format="spinbox" data_type="positive_integer" can_backup="1">
+      <default_value>30</default_value>
+      <edit_format_params/>
+      <sub_options/>
+      <relation group_id="th_liveThreads" display_order="100"/>
+    </option>
+    <option option_id="th_liveThreads_refreshFrequencyMaximum" edit_format="spinbox" data_type="positive_integer" can_backup="1">
+      <default_value>60</default_value>
+      <edit_format_params/>
+      <sub_options/>
+      <relation group_id="th_liveThreads" display_order="1"/>
+    </option>
+    <option option_id="th_liveThreads_refreshFrequencyMinimum" edit_format="spinbox" data_type="positive_integer" can_backup="1">
+      <default_value>5</default_value>
+      <edit_format_params/>
+      <sub_options/>
+      <relation group_id="th_liveThreads" display_order="10"/>
+    </option>
+  </optiongroups>
+  <permissions>
+    <permission_groups/>
+    <permissions>
+      <permission permission_group_id="forum" permission_id="liveRefreshThread" permission_type="flag" depend_permission_id="postReply" default_value="unset" interface_group_id="forumPermissions" display_order="200"/>
+      <permission permission_group_id="forum" permission_id="liveUnliveThread" permission_type="flag" default_value="unset" interface_group_id="forumModeratorPermissions" display_order="500"/>
+    </permissions>
+    <interface_groups/>
+  </permissions>
+  <phrases>
+    <phrase title="option_group_th_liveThreads" version_id="1427107216" version_string="1.0.0"><![CDATA[Live Threads by ThemeHouse]]></phrase>
+    <phrase title="option_group_th_liveThreads_description" version_id="1427107216" version_string="1.0.0"><![CDATA[Options for the Live Threads by ThemeHouse add-on.]]></phrase>
+    <phrase title="option_th_liveThreads_disableTaggingQuoteAlerts" version_id="1427107216" version_string="1.0.0"><![CDATA[Disable tagging and quote alerts in live threads]]></phrase>
+    <phrase title="option_th_liveThreads_disableTaggingQuoteAlerts_explain" version_id="1427107216" version_string="1.0.0"><![CDATA[If this option is enabled, users who are quoted or tagged in messages on a live thread will not receive any alerts.]]></phrase>
+    <phrase title="option_th_liveThreads_disableWatchAlerts" version_id="1427107216" version_string="1.0.0"><![CDATA[Disable watch alerts in live threads]]></phrase>
+    <phrase title="option_th_liveThreads_disableWatchAlerts_explain" version_id="1427107216" version_string="1.0.0"><![CDATA[If this option is enabled, users watching a live thread will not be alerted as normal. Users who are quoted or tagged in messages will be alerted as normal.]]></phrase>
+    <phrase title="option_th_liveThreads_maximumPostsVisible" version_id="1427107216" version_string="1.0.0"><![CDATA[Maximum Posts Visible]]></phrase>
+    <phrase title="option_th_liveThreads_maximumPostsVisible_explain" version_id="1427107216" version_string="1.0.0"><![CDATA[To avoid pages becoming less responsive after several live refreshes, older posts can automatically be hidden from view. This should be set to a value greater than or equal to the <a href="admin.php?options/list/messageOptions">Messages Per Page</a> option.]]></phrase>
+    <phrase title="option_th_liveThreads_refreshFrequencyMaximum" version_id="1427107216" version_string="1.0.0"><![CDATA[Maximum Delay Between Live Refreshes]]></phrase>
+    <phrase title="option_th_liveThreads_refreshFrequencyMaximum_explain" version_id="1427107216" version_string="1.0.0"><![CDATA[For live threads, this is the maximum number of seconds between live refreshes. This value should be higher than or the same as the Minimum Delay Between Live Refreshes. The delay between refreshes will be greater during periods of inactivity in a thread. Note that <a href="admin.php?options/list/messageOptions">saving drafts as messages are being composed</a> will also cause a live refresh.]]></phrase>
+    <phrase title="option_th_liveThreads_refreshFrequencyMinimum" version_id="1427107216" version_string="1.0.0"><![CDATA[Minimum Delay Between Live Refreshes]]></phrase>
+    <phrase title="option_th_liveThreads_refreshFrequencyMinimum_explain" version_id="1427107216" version_string="1.0.0"><![CDATA[For live threads, this is the minimum number of seconds between live refreshes. This value should be lower than or the same as the Maximum Delay Between Live Refreshes. The delay between refreshes will be lower during periods of high activity in a thread. Note that <a href="admin.php?options/list/messageOptions">saving drafts as messages are being composed</a> will also cause a live refresh.]]></phrase>
+    <phrase title="permission_forum_liveRefreshThread" version_id="1427107216" version_string="1.0.0"><![CDATA[Live refresh thread (requires post replies)]]></phrase>
+    <phrase title="permission_forum_liveUnliveThread" version_id="1427107216" version_string="1.0.0"><![CDATA[Live / unlive thread]]></phrase>
+    <phrase title="th_live_livethreads" version_id="1427107216" version_string="1.0.0"><![CDATA[Live]]></phrase>
+    <phrase title="th_new_posts_appear_automatically_livethreads" version_id="1427107216" version_string="1.0.0"><![CDATA[New posts will appear automatically without having to refresh.]]></phrase>
+  </phrases>
+  <route_prefixes/>
+  <style_properties/>
+  <templates>
+    <template title="th_thread_view_livethreads.css" version_id="1427107216" version_string="1.0.0"><![CDATA[.messagesSinceReplyingNotice
+{
+	display: none !important;
+}]]></template>
+  </templates>
+  <public_template_modifications>
+    <modification template="footer" modification_key="th_copyrightNotice_liveThreads" description="Copyright notice for [⌂] Live Threads" execution_order="1" enabled="1" action="callback">
+      <find><![CDATA[/{xen:phrase (?:xenforo|extra)_copyright}/]]></find>
+      <replace><![CDATA[ThemeHouse_Listener_InitDependencies::copyrightNotice]]></replace>
+    </modification>
+    <modification template="thread_fields_status" modification_key="th_threadFieldsStatus_liveThreads" description="Adds 'Live' option to thread editor." execution_order="10" enabled="1" action="preg_replace">
+      <find><![CDATA[#({xen:phrase set_thread_status}.*)(</xen:contentcheck>)#Us]]></find>
+      <replace><![CDATA[${1}
+<xen:if is="{$canLiveUnliveThread}">
+	<li>
+		<label for="ctrl_live"><input type="checkbox" name="live" value="1" id="ctrl_live" {xen:checked {$thread.live_th}} /> {xen:phrase th_live_livethreads}</label>
+		<input type="hidden" name="live_shown" value="1" />
+		<p class="hint">{xen:phrase th_new_posts_appear_automatically_livethreads}</p>
+	</li>
+</xen:if>
+${2}]]></replace>
+    </modification>
+    <modification template="thread_view" modification_key="th_threadViewQuickUpdate_liveThreads" description="Adds 'Live' option to quick update form." execution_order="10" enabled="1" action="preg_replace">
+      <find><![CDATA[#(<form action="{xen:link threads/quick-update.*)(</xen:contentcheck>)#Us]]></find>
+      <replace><![CDATA[${1}
+<xen:if is="{$canLiveUnliveThread}"> 
+<li><label><input type="checkbox" name="live" value="1" class="SubmitOnChange" {xen:checked $thread.live_th} />
+	{xen:phrase th_live_livethreads}</label>
+		<input type="hidden" name="live_shown" value="1" /></li></xen:if>
+${2}]]></replace>
+    </modification>
+    <modification template="thread_view" modification_key="th_threadView_liveThreads" description="Add javascript to thread view." execution_order="10" enabled="1" action="preg_replace">
+      <find><![CDATA[#$#]]></find>
+      <replace><![CDATA[<xen:if is="{$thread.isLive}">
+	<xen:require js="js/themehouse/livethreads/thread.js" />
+	<xen:require css="th_thread_view_livethreads.css" />
+	<script>
+	jQuery.extend(ThemeHouse.liveThreadsOptions,
+	{
+		liveRefreshUrl: '{xen:link threads/live-refresh, {$thread}}',
+		refreshFrequencyMinimum: {$xenOptions.th_liveThreads_refreshFrequencyMinimum},
+		refreshFrequencyMaximum: {$xenOptions.th_liveThreads_refreshFrequencyMaximum}
+	});
+	</script>
+</xen:if>]]></replace>
+    </modification>
+  </public_template_modifications>
+  <bb_code_media_sites/>
+  <bb_codes/>
+</addon>
